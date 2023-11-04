@@ -30,19 +30,25 @@ int main() {
       int c; // Cantidad integrantes / grupo
       cin >> c;
       int x;
-      cin >> x;
-      x--;
-      for (int j = 0; j < c - 1; j++) {
-        int y;
-        cin >> y;
-        y--;
-        g[x].insert(y);
-        x = y;
-        g[x].insert(y);
+      
+      if(c > 0){
+        cin >> x;
+        x--;
+
+        for (int j = 0; j < c - 1; j++) { // Recorremos /integrante
+            int y;
+            cin >> y;
+            y--;
+            g[x].insert(y);
+            g[y].insert(x);
+
+            x = y;
+        }
       }
     }
 
-    vector<int> tams;
+
+    vector<int> tams(N, 0);
     
     for (int i = 0; i < N; i++) {
       if (tams[i] == 0)
@@ -58,5 +64,11 @@ int main() {
         }
       }
     }
+
+
+    for(int i : tams){
+      cout << i << " ";
+    }
+    cout << "\n";
   }
 }
