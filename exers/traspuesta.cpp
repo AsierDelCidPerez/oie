@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -6,22 +7,26 @@ int main(){
     int T;
     cin >> T;
     while(T--){
-        int n, m;
-        cin >> n >> m;
-        int ** matriz = new int * [m];
         
-        for(int i=0;i<m;i++){
+        int n, m;
+
+        cin >> n >> m;
+
+        int ** matriz = new int* [m];
+        // vector<vector<int>> matriz(m, vector<int>(n, 0));
+        
+        for(int i=0;i<n;i++){
             matriz[i] = new int[n];
-            for(int j=0;j<n;j++){
+            for(int j=0;j<m;j++){
                 int c;
                 cin >> c;
                 matriz[j][i] = c;
             }
         }
-        cout << "\n---\n";
+
         for(int i=0;i<m;i++){
-            for(int j=0;j<n;i++){
-                cout << matriz[i][j];
+            for(int j=0;j<n;j++){
+                 cout << matriz[i][j] << " ";
             }
             cout << "\n";
         }
