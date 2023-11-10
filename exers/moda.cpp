@@ -99,6 +99,7 @@ void moda() {
 				break;
 			}
 			case 'i': {
+				if()
 				int mId = identificadores.front();
 				identificadores.pop_front();
 				unicos[mId]--;

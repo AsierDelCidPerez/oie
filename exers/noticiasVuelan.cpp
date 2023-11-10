@@ -20,9 +20,6 @@ int dfs(int const & n) {
 int main() {
   int N, M;
   while (cin >> N >> M) { // Ejecutando cada caso
-    auto grupos = Grafo(N);
-    auto usuarios = Grafo(M);
-
     g.assign(N, {});
     visited.assign(N, false);
     for (int i = 0; i < M; i++) { // Grupos
@@ -32,6 +29,7 @@ int main() {
       
       if(c > 0){
         cin >> x;
+        
         x--;
 
         for (int j = 0; j < c - 1; j++) { // Recorremos /integrante
