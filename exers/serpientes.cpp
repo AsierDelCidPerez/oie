@@ -9,6 +9,12 @@ using namespace std;
 void serpientes(){
     
     int N, K, S, E;
+    /*
+        N: dimensión del tablero
+        K: caras del dado
+        S: n serpientes
+        E: n Escaleras
+    */
 
     while(cin >> N >> K >> S >> E){
 
@@ -32,9 +38,9 @@ void serpientes(){
         dist[0] = 0;
 
         while(!q.empty()){
-            int v = q.front(); q.pop();
+            int v = q.front(); q.pop(); // v es el frente 
             int ent = false;
-            for(int i=1;i <= K && K + v < N*N;i++){
+            for(int i=1; i <= K && i + v < N*N;i++){ // i son los diferentes valores que puede tomar el dado, por tanto nos interesa saber si para ese valor de i se desborda del tablero.
                 int w = saltos[i+v];
                 if(dist[w] == -1){
                     q.push(w);

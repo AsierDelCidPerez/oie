@@ -1,0 +1,19 @@
+digraph G {
+    splines="TRUE";
+
+    /* Entities */
+    shortName [label="1"]
+    
+    /* Relationships */
+    0 -> shortName[label="10"]
+    2 -> 0[label="12"];
+    6 -> 0 [label="20"];
+    6 -> 4 [label="25"];
+    3 -> 4 [label="30"];
+    3 -> 5 [label="5"];
+    4 -> 5 [label="60"];
+    5 -> 0 [label="15"];
+
+    /* Ranks */
+    { rank=same; shortName; };
+}

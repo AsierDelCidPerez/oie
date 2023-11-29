@@ -24,19 +24,6 @@ void preguntarse() {
 	auto itE = identificadores.end();
 	itE--;
 
-	bool seguir = false;
-	for(auto i : unicos){
-		if(i.second == 1){
-			seguir = true;
-			break;
-		}
-	}
-
-	if(!seguir){
-		std::cout << "NADA INTERESANTE\n";
-		return;
-	}
-
 	for (int i = 0; i <= identificadores.size()/2; i++) {
 
 		int a = *itS;
@@ -99,16 +86,19 @@ void moda() {
 				break;
 			}
 			case 'i': {
-				if()
-				int mId = identificadores.front();
-				identificadores.pop_front();
-				unicos[mId]--;
+				if(!identificadores.empty()){
+					int mId = identificadores.front();
+					identificadores.pop_front();
+					unicos[mId]--;
+				}
 				break;
 			}
 			case 'd': {
-				int mId = identificadores.back();
-				identificadores.pop_back();
-				unicos[mId]--;
+				if(!identificadores.empty()){
+					int mId = identificadores.back();
+					identificadores.pop_back();
+					unicos[mId]--;
+				}
 				break;
 			}
 			case 'P': {

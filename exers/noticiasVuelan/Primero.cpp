@@ -26,7 +26,7 @@ void unir_nodos(int i, int j, vector<int> &componentes, vector<int> &tamano) {
 
 void imprimir_conexiones(vector<int> &componentes, vector<int> &tamano) {
   for (int i = 1; i < componentes.size(); i++) {
-    cout << tamano[hallar_raiz(i, componentes)] << " ";
+    cout << tamano[hallar_raiz(i, componentes)] << (i+1 ==componentes.size()) ? "" : " ";
   }
   cout << "\n";
 }
