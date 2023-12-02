@@ -29,6 +29,8 @@ void resuelve(int origin, int des){
 
     while(!q.empty()){
         auto [cost, v] = q.top(); q.pop();
+        if(cost > dist[v]) continue; // info. antigua: si la distancia a un nodo es mayor que la que tenía asignada, significa que es info. antigua.
+        if(dist[des] != -1 && dist[v] > dist[des]) continue; // Optimización: cuando nos interesa ir de origen a destino con un camino mínimo, podemos desechar todas aquellas opciones no mínimas.
         for(auto ady : g[v]){
             if(dist[ady.second] == -1 || dist[v] + ady.first < dist[ady.second]){
                 anteriores[ady.second] = v;

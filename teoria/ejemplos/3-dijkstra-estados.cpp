@@ -16,7 +16,7 @@ int A, B, C, D;
 
 map<info, int> dist;
 
-void dijkstra(){
+void dijkstra () {
     vector<int> cap = {A, B, C};
     vector<vector<int>> dist(cap[0]+1, vector<int>(cap[1]+1, -1));
     priority_queue<info, vector<info>, greater<info>> q;

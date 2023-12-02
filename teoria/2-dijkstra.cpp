@@ -65,6 +65,7 @@ void dikstra(){
         auto [d, u] = pq.top(); // desetructuración
         pq.pop();
         if(d > dist[u]) continue; // info. antigua
+        
         for(auto [c, v] : g[u]){
             if(dist[u]+c < dist[v]){ // Si la distancia al adyacente dist[u]+c es menor a la que tenía asignada dist[v]
                 dist[v] = dist[u]+c;

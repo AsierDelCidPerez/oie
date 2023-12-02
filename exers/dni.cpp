@@ -31,24 +31,31 @@ int conversion(char letra) {
 	else return 23;
 }
 
-int adivinarDNI(string & dni, int pos){
+int adivinarDNI(string dni){
     int posibilidades = 0;
-    for(int i=0;i<10;i++){
-        dni[pos] = i;
-        bool encontrado = false;
-        for(int j=pos;j<dni.size()-1;j++){
-            if(dni[j] == '?'){
-                posibilidades += adivinarDNI(dni, pos);
+    bool encontrado = false;
+
+    // cout << "Recibo: " << dni << "\n";
+
+    for(int j=0;j<dni.size()-1;j++){
+        if(dni[j] == '?'){
+            for(int i=0;i<10;i++){
+                dni[j] = i+48;
+                // cout << i << " -> " << dni << "\n";
+                posibilidades += adivinarDNI(dni);
                 encontrado = true;
             }
         }
-        if(!encontrado){ // No hay interrogaciones
-            int entera = stoi(dni.substr(0, 8));
-            if(conversion(dni[dni.size()-1]) == (entera % 23)){
-                posibilidades++;
-            }
+    }
+
+    if(!encontrado){
+        int entero = stoi(dni.substr(0, 8));
+        if(entero % 23 == conversion(dni[dni.size()-1])){
+            // cout << dni << " (Agraciado)\n";
+            posibilidades++;
         }
     }
+
     return posibilidades;
 }
 
@@ -66,6 +73,6 @@ int main(){
                 break;
             }
         }
-        cout << adivinarDNI(dni, pos);
+        cout << adivinarDNI(dni) << "\n";
     }
 }
