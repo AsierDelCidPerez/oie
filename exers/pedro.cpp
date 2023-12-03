@@ -48,5 +48,6 @@ int main(){
             nums.push_back(c);
         }
         pedro();
+        nums.clear(); // Imprescindible el borrado de información. ;)
     }
 }

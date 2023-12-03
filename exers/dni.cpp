@@ -41,7 +41,7 @@ int adivinarDNI(string dni){
         if(dni[j] == '?'){
             for(int i=0;i<10;i++){
                 dni[j] = i+48;
-                // cout << i << " -> " << dni << "\n";
+                cout << i << " -> " << dni << "\n";
                 posibilidades += adivinarDNI(dni);
                 encontrado = true;
             }
