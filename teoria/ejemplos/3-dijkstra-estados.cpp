@@ -14,7 +14,6 @@ vector<vector<pair<int, info>>>;
 
 int A, B, C, D;
 
-map<info, int> dist;
 
 void dijkstra () {
     vector<int> cap = {A, B, C};
