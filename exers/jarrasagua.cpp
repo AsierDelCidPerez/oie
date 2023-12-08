@@ -13,11 +13,11 @@ vector<vector<int>> dist; // {trasvases, {a, b}}
 
 void imprimirAnteriores(int a, int b){
     if(anteriores[a][b].first == -1 && anteriores[a][b].second == -1){
-        cout << "(" << a << ", " << b << ")";
+        cout << "(" << a << ", " << b << ", " << (capacidades[0] - (a+b)) << ")";
     }else{
         auto [x, y] = anteriores[a][b];
         imprimirAnteriores(x, y);
-        cout << " -> (" << a << ", " << b << ")";
+        cout << " -> (" << a << ", " << b << ", " << (capacidades[0] - (a+b)) << ")";
     }
 }
 
@@ -26,15 +26,15 @@ void resuelve(){
     // Se comienza con la primera jarra llena y demás vacías
     
     pq.push({0, {capacidades[0], 0}});
-    dist[8][0] = 0;
+    dist[capacidades[0]][0] = 0;
     while(!pq.empty()){
-        auto [trasvases, estado] = pq.top();
+        auto [trasvases, estado] = pq.top(); pq.pop();
         if(trasvases > dist[estado.first][estado.second]) continue;
         int actual[3] = {estado.first, estado.second, capacidades[0] - (estado.first + estado.second)};
         for(auto i : actual){
             if(i == D) {
                 cout << trasvases << "\n"; 
-                imprimirAnteriores(actual[0], actual[1]);
+                // imprimirAnteriores(actual[0], actual[1]); cout << "\n";
                 return;
             }
         }
@@ -45,7 +45,7 @@ void resuelve(){
                 vector<int> cap;
                 cap.assign(3, -1);
                 int t;
-                if(actual[i] > capacidades[j] - actual[j]){ // Máximo transferible capacidades[j] - actual[j]
+                if(actual[i] > capacidades[j] - actual[j]){ // Máximo transferible -> capacidades[j] - actual[j]
                     t = capacidades[j] - actual[j];
                     cap[j] = capacidades[j];
                     cap[i] = actual[i] - capacidades[j] + actual[j];

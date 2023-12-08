@@ -10,7 +10,6 @@ using namespace std;
 using estado = pair<int, int>; // Estado primera y segunda garrada, la 3ª se calcula.
 using info = pair<int, estado>;
 
-vector<vector<pair<int, info>>>;
 
 int A, B, C, D;
 
@@ -52,10 +51,8 @@ void dijkstra () {
                     dist[nuevo[0]][nuevo[1]] = t + muevo;
                     q.push({t + muevo, {nuevo[0], nuevo[1]}});
                 }
-
             }
         }
-
     }
 
     cout << "BOOM\n";

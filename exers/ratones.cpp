@@ -7,7 +7,7 @@ using namespace std;
 int N, S, T, P; // S -> Destino
 using info = pair<int, int>;
 vector<vector<info>> digraph;
-vector<vector<int>> dist;
+vector<int> distF;
 
 /*
 void dijkstra (int origin) {
@@ -27,31 +27,49 @@ void dijkstra (int origin) {
 */
 
 void resolver(){
-    dist.assign(N, vector<int>(N, -1));
-    // dijkstra(0);
-    priority_queue<info, vector<info>, greater<info>> q;
+    int conteo = 0;
     for(int i=0;i<N;i++){
+        if(i == S) continue;
+        vector<int> dist;
+        dist.assign(N, -1);
+        priority_queue<info, vector<info>, greater<info>> pq;
+        
         int origin = i;
-        q.push({0, origin});
-        while(!q.empty()){
-            info v = q.top();
-            if(v.first > dist[i][v.second]) break;
-            if(dist[i][v.second] >= dist[i][S]) break;
-            for(auto g : digraph[v.second]){
-                if(dist[i][g.second] == -1 || dist[i][v.second] + g.first < dist[i][g.second]){
-                    dist[i][g.second] = dist[i][v.second] + g.first;
-                    q.push({dist[i][g.second], g.second});
+
+        pq.push({0, origin});
+        dist[origin] = 0;
+
+        while(!pq.empty()){
+            auto [c, v] = pq.top(); pq.pop();
+            if(c > dist[v]) continue;
+
+            for(auto g : digraph[v]){
+                if(distF[g.second] != -1) {
+                    if(dist[S] == -1 || distF[g.second] < dist[S]){
+                        dist[S] = distF[g.second];
+                        continue;
+                    }
                 }
+
+                if(dist[g.second] == -1 || dist[v] + g.first < dist[g.second]){
+                    dist[g.second] = dist[v] + g.first;
+                    pq.push({dist[g.second], g.second});
+                }
+
             }
         }
+
+        distF[origin] = dist[S];
+
     }
 
-    int conteo = 0;
-    for(auto i : dist){
-        if(i[S] < T){
+    for(auto i : distF){
+        if(i != -1 && i <= T) {
+            cout << i << "\n";
             conteo++;
         }
     }
+
     cout << conteo << "\n";
 
 }
@@ -65,6 +83,7 @@ int main(){
             a--; b--;
             digraph[a].push_back({c, b}); // coste, celda -> (UNIDIRECCIONAL)
         }
+        distF.assign(N, -1);
         resolver();
     }
 }
