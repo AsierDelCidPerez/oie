@@ -5,7 +5,7 @@
 using namespace std;
 
 int N, S, T, P; // S -> Destino
-using info = pair<int, int>;
+using info = pair<int, int>; // <coste, label>
 vector<vector<info>> digraph;
 vector<int> distF;
 
@@ -29,7 +29,7 @@ void dijkstra (int origin) {
 void resolver(){
     int conteo = 0;
     for(int i=0;i<N;i++){
-        if(i == S) continue;
+        if(i == S) continue; // Hay ratones excepto en la celda salida => Hay N-1 ratones.
         vector<int> dist;
         dist.assign(N, -1);
         priority_queue<info, vector<info>, greater<info>> pq;
@@ -50,7 +50,6 @@ void resolver(){
                         continue;
                     }
                 }
-
                 if(dist[g.second] == -1 || dist[v] + g.first < dist[g.second]){
                     dist[g.second] = dist[v] + g.first;
                     pq.push({dist[g.second], g.second});
@@ -58,14 +57,12 @@ void resolver(){
 
             }
         }
-
         distF[origin] = dist[S];
-
     }
 
     for(auto i : distF){
         if(i != -1 && i <= T) {
-            cout << i << "\n";
+            // cout << i << "\n";
             conteo++;
         }
     }

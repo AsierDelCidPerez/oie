@@ -11,7 +11,8 @@ int n, k;
 void pedro(){
     deque<int> q;
     int i=0;
-    for(;i<k;i++){
+    for(;i<k;i++){ 
+        // 3 8 5 12 15 9
         while(!q.empty() && nums[i] >= nums[q.back()]) // Quedarnos al frente con el mayor.
         {
             q.pop_back();
