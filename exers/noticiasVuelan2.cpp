@@ -9,6 +9,7 @@ using Grafo = vector<vector<int>>;
 vector<set<int>> g;
 vector<bool> visited; // Tenemos que inicializarlo despues de cada caso.
 
+
 int dfs(int n) {
   visited[n] = true;
   int tam = 1;
@@ -72,6 +73,7 @@ int main() {
         int tam = dfs(i);
         // vector<int> tams;
         for (int j=0;j<N;j++) {
+
           if (visited[j]) {
             tams[j] = tam;
           }

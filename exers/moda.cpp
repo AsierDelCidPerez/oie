@@ -1,61 +1,70 @@
 #include <iostream>
 #include <queue>
 #include <map>
+#include <set>
 
 using namespace std;
 
 deque<int> identificadores;
-int N; // n Camisas
-map<int, int> unicos;
+int N, itara, jotara; // n Camisas; itara = n camisas añadidas por izqd; jotara = n camisas añadidas por dcha
+map<int, set<int>> unicos; // <Label, <Posiciones relativas>> 
+set<int> unicoSet; // set de camisas unicas; almacena sus posiciones relativas
 
+pair<int, int> ita={-1, -1}, jota={-1,-1}; // <dist, label>
 
-void revisar(int const& id) {
-	if (unicos.count(id)) {
-		unicos[id]++;
+void revisar(int label, int pos) {
+	if (unicos[label].size() == 1) {
+		unicos[label].push_back(pos);
+		unicoSet.erase(pos);
 	}
 	else {
-		unicos[id] = 1;
+		unicos[label].push_back(pos);
+		unicoSet.insert(pos);
 	}
+}
+
+void imprimirUnicoSet(){
+	for(auto it = unicoSet.begin(); it != unicoSet.end(); it++){
+		cout << *it << " ";
+	}
+	cout << "\n";
 }
 
 void preguntarse() {
 
-	auto itS = identificadores.begin();
-	auto itE = identificadores.end();
-	itE--;
+	int ita = *unicoSet.begin();
+	int jota = *unicoSet.rbegin();
 
-	for (int i = 0; i <= identificadores.size()/2; i++) {
+	int valido = abs(jota - N);
 
-		int a = *itS;
-		int b = *itE;
+	cout << "---\n";
+	cout << ita << " | " << jota << " \n";
+	imprimirUnicoSet();
+	cout << "---\n";
 
-
-		if (unicos[*itS] == 1 && unicos[*itE] == 1) {
-			std::cout << (i + 1) << " CUALQUIERA\n";
-			return;
+	if(!unicos.empty()){
+		if(valido == abs(ita)){
+			int dif = itara - abs(ita);
+			cout << dif << " CUALQUIERA\n";
+		}else{
+			if(valido < abs(ita)){
+				int dif = jotara - valido;
+				cout << dif << " DERECHA\n";
+			}else{
+				int dif = abs(itara - ita);
+				cout << dif << " DERECHA\n";
+			}
 		}
-
-		if (unicos[*itS] == 1) {
-			std::cout << (i + 1) << " IZQUIERDA\n";
-			return;
-		}
-
-		if (unicos[*itE] == 1) {
-			std::cout << (i+1) << " DERECHA\n";
-			return;
-		}
-
-		itS++;
-		itE--;
+	}else{
+		cout << "NADA INTERESANTE\n";
 	}
 
-	std::cout << "NADA INTERESANTE\n";
+
 
 }
 
 void moda() {
 	while (cin >> N) {
-
 		identificadores.assign(0, {});
 		unicos.clear();
 
@@ -63,7 +72,7 @@ void moda() {
 			int id;
 			cin >> id;
 			identificadores.push_back(id);
-			revisar(id);
+			revisar(id, i);
 		}
 		int E;
 		cin >> E;
@@ -76,29 +85,30 @@ void moda() {
 			case 'I': {
 				cin >> param;
 				identificadores.push_front(param);
-				revisar(param);
+				itara++;
+				revisar(param, -i);
 				break;
 			}
 			case 'D': {
 				cin >> param;
 				identificadores.push_back(param);
-				revisar(param);
+				jotara++;
+				revisar(param, N+i);
 				break;
 			}
 			case 'i': {
-				if(!identificadores.empty()){
-					int mId = identificadores.front();
-					identificadores.pop_front();
-					unicos[mId]--;
-				}
+				int mId = identificadores.front();
+				identificadores.pop_front();
+				unicos[mId]--;
+				if(unicos[mId] == 1) unicoSet.insert(N+i-1);
+				N--; 
 				break;
 			}
 			case 'd': {
-				if(!identificadores.empty()){
-					int mId = identificadores.back();
-					identificadores.pop_back();
-					unicos[mId]--;
-				}
+				int mId = identificadores.back();
+				identificadores.pop_back();
+				unicos[mId]--;
+				if(unicos[mId] == 1) unicoSet.insert(-i);
 				break;
 			}
 			case 'P': {
