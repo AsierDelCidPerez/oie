@@ -6,12 +6,31 @@
 using namespace std;
 
 void convertirHexToBinary(string const & hex, vector<bool> & v){
-    for(int i=0;i<hex.size();i++){
-        int intval = (hex[i] > 'a' ? hex[i] - 'a' + 10 : hex[i] - '0');
-        for(int j=0;j<=3;j++){
+    for(int i=0;i<hex.length();++i){
+        int intval = (hex[i] >= 'a') ? (hex[i] - 'a' + 10) : (hex[i] - '0');
+        for(int j=3;j>=0;j--){
             v[4*i+j] = (intval % 2) ? 1 : 0;
             intval/=2;
         }
+    }
+}
+
+void binaryToHex(string linea, string & resultado){
+    resultado = "";
+    int n = ceil(((double)linea.length())/ 4);
+    int anadido = n*4 - linea.length();
+    for(int i=0;i<anadido;i++) {
+        linea = '0' + linea;
+    }
+    // cout << n<< "\n";
+    for(int i=0;i<n;i++){
+        int res = 0;
+        for(int j=3;j>=0;j--){
+            int myValue = linea[linea.length() - 1 - (4 * i + j)] - '0';
+            res += (myValue % 2) ? pow(2, j) : 0;
+        }
+        char valor = (res >= 10) ? (res + 'a' - 10) : (res + '0');
+        resultado = valor + resultado;
     }
 }
 
@@ -53,17 +72,12 @@ int baseToDecimal(string n, int base){
 }
 
 int main(){
+    string n; 
 
-    string ejemplo;
-    int base;
-    cin >> ejemplo >> base;
-    vector<bool> binary;
-    binary.assign(20, false);
-    convertirHexToBinary(ejemplo, binary);
-
-    for(int i : binary) cout << i << " ";
-
-    
-
-    // cout << decimalToBase(rest, base) << "\n";
+    while(cin >> n){
+        if(n == "EXIT") break;
+        string resultado;
+        binaryToHex(n, resultado);
+        cout << resultado << "\n";
+    }
 }

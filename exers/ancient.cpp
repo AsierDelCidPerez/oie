@@ -22,9 +22,9 @@ const int desp[2][4] = {
 };
 
 void convertirHexToBinary(string const & hex, vector<bool> & v){
-    for(int i=0;i<hex.size();i++){
-        int intval = (hex[i] > 'a' ? hex[i] - 'a' + 10 : hex[i] - '0');
-        for(int j=0;j<=3;j++){
+    for(int i=0;i<hex.length();++i){
+        int intval = (hex[i] >= 'a') ? (hex[i] - 'a' + 10) : (hex[i] - '0');
+        for(int j=3;j>=0;j--){
             v[4*i+j] = (intval % 2) ? negro : blanco;
             intval/=2;
         }
@@ -50,7 +50,7 @@ int topologia(int x, int y){
         int nX = x + desp[0][i];
         int nY = y + desp[1][i];
         if(nX >= 0 && nX < H && nY >= 0 && nY < W && !visited[nX][nY]){ // Validación básica
-            if(img[nX][nY]){
+            if(img[nX][nY] == negro){
                 tam += topologia(nX, nY);
             }else{
                 eliminarBlanco(nX, nY);
@@ -64,17 +64,25 @@ int topologia(int x, int y){
 void resuelve(){
     // Eliminación del fondo
     for(int i=0;i<W;i++){
-        if(!img[0][i]) eliminarBlanco(0, i);
-    }
-    for(int i=0;i<H;i++){
-        if(!img[i][0]) eliminarBlanco(i, 0);
+        if(img[0][i] == blanco && !visited[0][i]) eliminarBlanco(0, i);
+        if(img[H-1][i] == blanco && !visited[H-1][i]) eliminarBlanco(H-1, i);
+
     }
 
-    for(int i=1;i<W-1;i++){
-        for(int j=1;j<H-1;j++){
+    for(int i=0;i<H;i++){
+        if(img[i][0] == blanco && !visited[i][0]) eliminarBlanco(i, 0);
+        if(img[i][W-1] == blanco && !visited[i][W-1]) eliminarBlanco(i, W-1);
+
+    }
+
+    // cout << "CORRESPONDENCIAS-----------\n";
+    for(int i=0;i<W;i++){
+        for(int j=0;j<H;j++){
             bool actual = img[j][i];
             if(actual && !visited[j][i]) {
-                cout << correspondencias[topologia(j, i)];
+                // cout << "(" << j << ", " << i << ")\n";
+                int valor = topologia(j, i);
+                cout << correspondencias[valor];
             }
         }
     }
@@ -82,27 +90,32 @@ void resuelve(){
 }
 
 int main(){
+    int contador = 1;
     while(cin >> H >> W){
-        if(H == 0 && W == 0) break;
+        if(H == 0) break;
         W*=4;
-        cin.ignore();
+        // cin.ignore();
         img.assign(H, vector<bool>(W, false));
         visited.assign(H, vector<bool>(W, false));
 
         for(int i=0;i<H;i++){
             string s;
-            getline(cin, s);
+            cin >> s;
             convertirHexToBinary(s, img[i]);
         }
 
         /*
+        cout << "\n-----\n";
         for(auto b : img){
-            for(auto i : b) cout << i << " ";
+            for(auto i : b) cout << i;
             cout << "\n";
         }
+        cout << "\n-----\n";
         */
-       
+
         // eliminarBordes();
+        cout << "Case " << contador << ": ";
         resuelve();
+        contador++;
     }
 }
