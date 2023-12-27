@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <queue>
 
 using namespace std;
 
@@ -15,6 +16,7 @@ const bool negro = true;
 const bool blanco = false;
 const char correspondencias[6] = {'W', 'A', 'K', 'J', 'S', 'D'};
 
+priority_queue<char, vector<char>, greater<char>> caracteres;
 
 const int desp[2][4] = {
     {-1, 0, 1, 0},
@@ -82,7 +84,8 @@ void resuelve(){
             if(actual && !visited[j][i]) {
                 // cout << "(" << j << ", " << i << ")\n";
                 int valor = topologia(j, i);
-                cout << correspondencias[valor];
+                caracteres.push(valor);
+                // cout << correspondencias[valor];
             }
         }
     }
@@ -92,6 +95,7 @@ void resuelve(){
 int main(){
     int contador = 1;
     while(cin >> H >> W){
+        
         if(H == 0) break;
         W*=4;
         // cin.ignore();
@@ -115,7 +119,12 @@ int main(){
 
         // eliminarBordes();
         cout << "Case " << contador << ": ";
+        
         resuelve();
+        while(!caracteres.empty()) {
+            char a = caracteres.top();
+            cout << a << " ";
+        }
         contador++;
     }
 }
