@@ -3,6 +3,7 @@
 #include <vector>
 #include <set>
 #include <algorithm>
+#include <queue>
 
 using namespace std;
 
@@ -55,18 +56,19 @@ void resuelve(){
 
         int K;
         cin >> K;
-        vector<string> ganadores;
+        priority_queue<string, vector<string>, greater<string>> ganadores;
         bool entrado = false;
         for(int i=0;i<K;i++){
             int t; cin >> t;
             for(int j=0;!entrado && j<N;j++){
                 bingos[j].erase(t);
-                if(bingos[j].size() == 0) ganadores.push_back(nombres[j]);
+                if(bingos[j].size() == 0) ganadores.push(nombres[j]);
             }
-            sort(ganadores.begin(), ganadores.end());
+            // sort(ganadores.begin(), ganadores.end());
             if(ganadores.size() > 0 && !entrado) {
-                for(auto o : ganadores) {
-                    cout << o << " ";
+                while(!ganadores.empty()){
+                    cout << ganadores.top() << " ";
+                    ganadores.pop();
                 }
                 cout << "\n";
                 entrado = true;
