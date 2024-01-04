@@ -1,49 +1,41 @@
 #include <iostream>
 #include <queue>
 
-using ll = long long int;
-
 using namespace std;
 
 int main(){
     int N, M, T;
 
     priority_queue<int, vector<int>, greater<int>> celulas;
-    vector<int> yemas;
-    priority_queue<int, vector<int>, greater<int>> aux;
 
     while(cin >> N >> M >> T){
-        celulas.push(N); //tiempo que tardan en reproducirse en una
-        while(T>0){
-            int min = -1;
-            aux = priority_queue<int, vector<int>, greater<int>>();
-            for(int i=0;i<celulas.size();i++){
-                int val = celulas.top(); celulas.pop();
-                min = (min == -1) ? (val) : (min);
-                min = (min > T) ? T : min;
-                T-=min;
-                if(i < yemas.size()){
-                    int &aVal = yemas[i];
-                    if(aVal < min){
-                        aux.push(N-(aVal-min));
-                        aVal = M;
+        celulas = priority_queue<int, vector<int>, greater<int>>();
+        celulas.push(N);
+        while(T!=0){
+            int minimum = celulas.top();
+            minimum = min(T, minimum);
+            T-=minimum;
+            queue<int> aux;
+            while(!celulas.empty()){
+                int value = celulas.top(); celulas.pop();
+                if(value < minimum){
+                    int dif = minimum - value; // segundos a restar después
+                    aux.push(N+M-dif);
+                    aux.push(N-dif);
+                }else{
+                    int myVal = value - minimum;
+                    if(myVal == 0){
+                        aux.push(N+M);
+                        aux.push(N);
                     }else{
-                        aVal -= min;
-                        if(aVal == 0) {
-                            celulas.push(N);
-                            aVal = M;
-                        }
+                        aux.push(myVal);
                     }
                 }
-                if(val == min){
-                    celulas.push(N);
-                    yemas.push_back(M);
-                    // aux.push(M);
-                }else{
-                    celulas.push(val-min);
-                }
+            }
+            while(!aux.empty()){
+                celulas.push(aux.front()); aux.pop();
             }
         }
-        std::cout << celulas.size() << "\n";
+        cout << celulas.size() << "\n";
     }
 }
