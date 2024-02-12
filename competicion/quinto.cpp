@@ -1,61 +1,69 @@
 #include <iostream>
+#include <algorithm>
 #include <queue>
+#include <vector>
 
 using namespace std;
 
-int expHongos(int N, int M, int T){
-    // Principio de recursividad: 
-    int cantidad = 1;
-
-    if(M < T){
-        T-=M;
-        expHongos(N, M, T-M);
+void imprimirQueue(queue<int> cola){
+    while(!cola.empty()){
+        int v = cola.front(); cola.pop();
+        cout << v << " ";
     }
-
-    return cantidad;
+    cout << "\n";
 }
 
-
 int main(){
-    int N, M, T;
-    /*
-        N -> tiempo que tarda una célula adulta en reproducirse
-        M -> tiempo que tarda una celula hija en convertirse en adulta
-        T -> tiempo del experimento
-        Cuestión: En tiempo T cuantas células tendremos si comenzamos con una célula adulta.
-    */
-
-    priority_queue<int, vector<int>, greater<int>> celulas;
+    int N, M, T; // Tiempo que tarda en reprducirse 
+    // Como máximo habrá N agrupaciones de células y M agrupaciones de yemas, donde las agrupaciones son conjuntos de ese tipo de ser que coinciden en su tiempo restante de reproducción
 
     while(cin >> N >> M >> T){
-        celulas = priority_queue<int, vector<int>, greater<int>>();
-        celulas.push(N);
-        while(T!=0){
-            int minimum = celulas.top(); // propiedad de priority_queue
-            minimum = min(T, minimum);
-            T-=minimum;
-            queue<int> aux;
+        queue<int> celulas;
+        queue<int> yemas;
 
-            while(!celulas.empty()){
-                int value = celulas.top(); celulas.pop();
-                if(value < minimum){
-                    int dif = minimum - value; // segundos a restar después
-                    aux.push(M-dif);
-                    aux.push(N-dif);
-                }else{
-                    int myVal = value - minimum;
-                    if(myVal == 0){
-                        aux.push(M);
-                        aux.push(N);
-                    }else{
-                        aux.push(myVal);
-                    }
-                }
+        for(int i=1;i<max(N, M);i++){
+            if(i < N){
+                celulas.push(0);
             }
-            while(!aux.empty()){
-                celulas.push(aux.front()); aux.pop();
+            if(i < M){
+                yemas.push(0);
             }
         }
-        cout << celulas.size() << "\n";
+
+
+        celulas.push(1);
+        yemas.push(0);
+
+        // imprimirQueue(celulas);
+        // imprimirQueue(yemas);
+
+        // T+=5;
+
+        while(T--){ // Principio de progresión de la queue -> no varía su size.
+            int k = celulas.front(); celulas.pop();
+            int j = yemas.front(); yemas.pop();
+
+            celulas.push(k+j); // Convertimos las (j) yemas que se convierten en adultas a celulas y las celulas que se reproducen reinician (k)
+            yemas.push(k+j); // Se reproducen las (k) células y las (j) yemas.
+            // imprimirQueue(celulas);
+            // imprimirQueue(yemas);
+        }
+
+        int suma = 0;
+
+
+
+
+        for(int i=0;i<max(N, M);i++){
+            if(!celulas.empty()){
+                suma += celulas.front(); celulas.pop();
+            }
+            if(!yemas.empty()){
+                suma += yemas.front(); yemas.pop();
+            }
+        }
+
+        cout << suma << "\n";
     }
+
 }
