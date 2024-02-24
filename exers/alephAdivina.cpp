@@ -3,7 +3,7 @@
 using namespace std;
 
 string query(int m){
-    cout << "? " << m << flush;
+    cout << "? " << m << endl;
     string p; cin >> p; return p;
 }
 
@@ -29,6 +29,6 @@ int main(){
             l = m;
         }
        }
-       cout << "Respuesta: " << r << "\n"; 
+       cout << "Respuesta: " << r << endl; 
     }
 }
