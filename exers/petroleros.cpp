@@ -107,6 +107,7 @@ void resuelve(){
         cout << u.size(u.max) << ((!N) ? "" : " ");
 
     }
+    cout << "\n";
 }
 
 int main(){
