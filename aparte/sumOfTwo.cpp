@@ -6,9 +6,10 @@ using namespace std;
 
 int main(){
     int N; cin >> N;
-    vector<int> nums(N, -1);
+    vector<pair<int, int>> nums;
     for(int i=0;i<N;i++){
-        cin >> nums[i];
+        int c; cin >> c;
+        nums.push_back({c, i});
     }
 
     sort(nums.begin(), nums.end());
@@ -21,8 +22,8 @@ int main(){
         int l = 0;
         int r = N-1;
 
-        while(nums[l] + nums[r] != k){
-            int suma = nums[l] + nums[r];
+        while(nums[l].first + nums[r].first != k){
+            int suma = nums[l].first + nums[r].first;
             if(suma > k){
                 --r;
             }else{
@@ -30,9 +31,6 @@ int main(){
             }
         }
 
-        cout << l+1 << " " << r+1 << "\n";
+        cout << nums[l].second+1 << " " << nums[r].second+1 << "\n";
     }
-
-
-
 }
