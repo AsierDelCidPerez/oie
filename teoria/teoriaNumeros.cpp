@@ -35,7 +35,6 @@ void factorizarDos(unsigned int n){
 vector<bool> primos;
 
 void cribaEratostenes(){
-    primos.assign(MAX_N, 0);
     
 }
 
